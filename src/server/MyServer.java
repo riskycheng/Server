@@ -4,32 +4,17 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import sun.misc.Cleaner;
 import utils.JsonParsing;
-
 import entity.ClientPackage;
 import entity.Duanzi;
 import entity.Picture;
 import entity.PraisesAndCriticisms;
-
 public class MyServer extends HttpServlet {
 	// ÊµÀý»¯SQLexecution
 	SQLexecution sqLexecution = new SQLexecution();
