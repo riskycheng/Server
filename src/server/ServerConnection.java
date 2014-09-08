@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import entity.Car;
+
 import utils.ParsingTool;
+import entity.Car;
 
 /**
- * function:ÊµÏÖÊı¾İ¿âµÄÁ¬½Ó²Ù×÷
+ * function:å®ç°æ•°æ®åº“çš„è¿æ¥æ“ä½œ
  * 
  * @author chengjian
  */
@@ -20,7 +21,7 @@ public class ServerConnection {
 	private Connection con = null;
     public static ResultSet sets;
     Statement statement = null;
-	// ¹¹Ôìº¯ÊıÁ¬½ÓÊı¾İ¿â
+	// æ„é€ å‡½æ•°è¿æ¥æ•°æ®åº“
 	public ServerConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -36,17 +37,17 @@ public class ServerConnection {
 	
 	
 	/**
-	 * function:ÒÀÕÕ²¿·Ö³µµÄĞÅÏ¢£¬Íê³É²éÑ¯Êı¾İ¿â,½«³µµÄ²éÑ¯½á¹û×ª»¯ÎªList<Car>
+	 * function:ä¾ç…§éƒ¨åˆ†è½¦çš„ä¿¡æ¯ï¼Œå®ŒæˆæŸ¥è¯¢æ•°æ®åº“,å°†è½¦çš„æŸ¥è¯¢ç»“æœè½¬åŒ–ä¸ºList<Car>
 	 * @param car
-	 * ´ËÎª½«ÓÃ»§ÔÚÇ°¶ËÑ¡ÔñµÄ²¿·ÖĞÅÏ¢·â×°ÎªCarÊµÌå
+	 * æ­¤ä¸ºå°†ç”¨æˆ·åœ¨å‰ç«¯é€‰æ‹©çš„éƒ¨åˆ†ä¿¡æ¯å°è£…ä¸ºCarå®ä½“
 	 * @param mode
-	 * ÕâÊÇÇëÇóµÄÀàĞÍ£º0±íÊ¾ÏÂÔØËùÓĞ³µÆ·ÅÆ£¬1±íÊ¾ÏÂÔØ¶ÔÓ¦³µÆ·ÅÆµÄ³µÏµ£¬2±íÊ¾¶ÔÓ¦µÄ³µĞÍ
+	 * è¿™æ˜¯è¯·æ±‚çš„ç±»å‹ï¼š0è¡¨ç¤ºä¸‹è½½æ‰€æœ‰è½¦å“ç‰Œï¼Œ1è¡¨ç¤ºä¸‹è½½å¯¹åº”è½¦å“ç‰Œçš„è½¦ç³»ï¼Œ2è¡¨ç¤ºå¯¹åº”çš„è½¦å‹
 	 */
 	public List<Car> QueryCars(Car car,int mode){
 		List<Car> cars = new ArrayList<Car>();
 		switch(mode){
 		case 0:
-			//²éÑ¯ËùÓĞ³µµÄÆ·ÅÆ
+			//æŸ¥è¯¢æ‰€æœ‰è½¦çš„å“ç‰Œ
 			try {
 				statement = con.createStatement();
 				ResultSet set = statement.executeQuery("select distinct(brand) from mycar");
@@ -60,7 +61,7 @@ public class ServerConnection {
 			break;
 			
 		case 1:
-			//²éÑ¯ËùÓĞÄ³Ò»³µÅÆ¶ÔÓ¦µÄ³µÏµ
+			//æŸ¥è¯¢æ‰€æœ‰æŸä¸€è½¦ç‰Œå¯¹åº”çš„è½¦ç³»
 			try {
 				statement = con.createStatement();
 				ResultSet set = statement.executeQuery("select distinct(series) from mycar where brand='" + car.getBrand() + "'");
@@ -73,7 +74,7 @@ public class ServerConnection {
 			break;
 			
 		case 2:
-			//²éÑ¯ËùÓĞÄ³Ò»³µÅÆ¶ÔÓ¦µÄ³µÏµµÄ¶ÔÓ¦³µĞÍ
+			//æŸ¥è¯¢æ‰€æœ‰æŸä¸€è½¦ç‰Œå¯¹åº”çš„è½¦ç³»çš„å¯¹åº”è½¦å‹
 			try {
 				statement = con.createStatement();
 				ResultSet set = statement.executeQuery("select distinct(type) from mycar where series='" + car.getSeries() + "'");
@@ -85,7 +86,7 @@ public class ServerConnection {
 			
 			break;
 		case 3:
-			//²éÑ¯ËùÓĞÄ³Ò»³µÅÆ¶ÔÓ¦µÄ³µÏµµÄ¶ÔÓ¦³µĞÍµÄÄ³Ò»³µĞÍµÄ¼Û¸ñ:¼´È«²¿ĞÅÏ¢
+			//æŸ¥è¯¢æ‰€æœ‰æŸä¸€è½¦ç‰Œå¯¹åº”çš„è½¦ç³»çš„å¯¹åº”è½¦å‹çš„æŸä¸€è½¦å‹çš„ä»·æ ¼:å³å…¨éƒ¨ä¿¡æ¯
 			try {
 				statement = con.createStatement();
 				ResultSet set = statement.executeQuery("select * from mycar where type='" + car.getType() + "' and series='" + car.getSeries() + "'");

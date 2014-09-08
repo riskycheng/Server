@@ -16,6 +16,8 @@ import entity.Car;
  *
  */
 public class ParsingTool {
+	public static final int REQUEST_TYPE = 0;
+	public static final String REQUEST_TYPE_STR = "type";
 	public static final int CAR_SINGLE_INFO_START = 1;
 	// 定义static 全局常量
 	public static final String CAR_ATTRIBUTES[] = { "brand", "series",
@@ -71,10 +73,25 @@ public class ParsingTool {
 	 * 
 	 * @param cars
 	 *            将服务器端查询到的多条car记录封装成json字符串
+	 *            @param mode
+	 *            mode=0 取车品牌；mode = 1 取车系列 ； mode = 2 取车型号 ； mode = 3 取车价格
 	 */
-	public static String Cars2Json(List<Car> cars) {
+	public static String Cars2Json(List<Car> cars ,int mode) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("[{'type':'app_0_0'},");
+		switch(mode){
+		case ConstantParams.MODE_REQUEST_BRAND:
+			buffer.append("[{'type':'" + ConstantParams.APP_0_0 + "'},");
+			break;
+		case ConstantParams.MODE_REQUEST_SERIES:
+			buffer.append("[{'type':'" + ConstantParams.APP_0_1 + "'},");
+			break;
+		case ConstantParams.MODE_REQUEST_TYPE:
+			buffer.append("[{'type':'" + ConstantParams.APP_0_2 + "'},");
+			break;
+		case ConstantParams.MODE_REQUEST_PRICE:
+			buffer.append("[{'type':'" + ConstantParams.APP_0_3 + "'},");
+			break;
+		}
 		// 循环将car的值置入json中
 		for (Car car : cars) {
 			buffer.append("{'" + CAR_BRAND + "':'" + car.getBrand() + "','");
@@ -104,36 +121,35 @@ public class ParsingTool {
 			sets.beforeFirst();
 
 			switch (mode) {
-			
 
 			case 0:
 				while (sets.next()) {
 					Car car = new Car();
 					car.setBrand(sets.getString(CAR_SINGLE_INFO_START));
-//					car.setSeries(sets.getString(CAR_SERIES_NO));
-//					car.setType(sets.getString(CAR_TYPE_NO));
-//					car.setPrice(sets.getInt(CAR_PRICE_NO));
+					// car.setSeries(sets.getString(CAR_SERIES_NO));
+					// car.setType(sets.getString(CAR_TYPE_NO));
+					// car.setPrice(sets.getInt(CAR_PRICE_NO));
 					cars.add(car);
 				}
 				break;
 			case 1:
 				while (sets.next()) {
 					Car car = new Car();
-//					car.setBrand(sets.getString(CAR_BRAND_NO));
+					// car.setBrand(sets.getString(CAR_BRAND_NO));
 					car.setSeries(sets.getString(CAR_SINGLE_INFO_START));
-//					car.setType(sets.getString(CAR_TYPE_NO));
-//					car.setPrice(sets.getInt(CAR_PRICE_NO));
+					// car.setType(sets.getString(CAR_TYPE_NO));
+					// car.setPrice(sets.getInt(CAR_PRICE_NO));
 					cars.add(car);
 				}
 				break;
-				
+
 			case 2:
 				while (sets.next()) {
 					Car car = new Car();
-//					car.setBrand(sets.getString(CAR_BRAND_NO));
-//					car.setSeries(sets.getString(CAR_SERIES_NO));
+					// car.setBrand(sets.getString(CAR_BRAND_NO));
+					// car.setSeries(sets.getString(CAR_SERIES_NO));
 					car.setType(sets.getString(CAR_SINGLE_INFO_START));
-//					car.setPrice(sets.getInt(CAR_PRICE_NO));
+					// car.setPrice(sets.getInt(CAR_PRICE_NO));
 					cars.add(car);
 				}
 				break;
@@ -156,27 +172,40 @@ public class ParsingTool {
 		return cars;
 	}
 
+	/**
+	 * function:实现获取从客户端获取的请求类型：返回值：0_0为请求车品牌，0_1为请求车系列，0_2为请求车型号，0_3为请求车价格
+	 * 
+	 * @param json
+	 *            传递进来的json数据
+	 */
+	public static String getJsonRequestType(String json) {
+		JSONArray jsonArray = JSONArray.fromObject(json);
+		String type = jsonArray.getJSONObject(REQUEST_TYPE).getString(
+				REQUEST_TYPE_STR);
+		return type;
+	}
+
 	// test
 	public static void main(String[] args) {
 		Car carA = new Car();
 		carA.setBrand("A 奥迪");
 		carA.setSeries("奥迪A3");
- 		carA.setType("2014款xx型1.2L");
+		carA.setType("2014款xx型1.2L");
 		carA.setPrice(100);
-//		Car carB = new Car();
-//		carB.setBrand("b");
-//		carB.setSeries("b_0");
-//		carB.setType("b_0_0");
-//		carB.setPrice(200);
-//		List<Car> cars = new ArrayList<Car>();
-//		cars.add(carA);
-//		cars.add(carB);
-//		System.out.println(Cars2Json(cars));
-//		String json = Cars2Json(cars);
-//		Car car = json2Car(json);
-//		if (car.getType().equals(""))
-//			System.out.print("没有");
-//		System.out.print(car.getType());
+		// Car carB = new Car();
+		// carB.setBrand("b");
+		// carB.setSeries("b_0");
+		// carB.setType("b_0_0");
+		// carB.setPrice(200);
+		// List<Car> cars = new ArrayList<Car>();
+		// cars.add(carA);
+		// cars.add(carB);
+		// System.out.println(Cars2Json(cars));
+		// String json = Cars2Json(cars);
+		// Car car = json2Car(json);
+		// if (car.getType().equals(""))
+		// System.out.print("没有");
+		// System.out.print(car.getType());
 
 		// ServerConnection conn = new ServerConnection();
 		// cars = resultSet2Cars(conn.sets);
@@ -184,12 +213,14 @@ public class ParsingTool {
 		// System.out.println(car.getBrand() +";" + car.getSeries() + ";" +
 		// car.getType() + ";" + car.getPrice());
 		// }
-		ServerConnection conn = new ServerConnection();
-		List<Car> cars = conn.QueryCars(carA, 3);
-		 for(Car car:cars){
-				 System.out.println(car.getBrand() +";" + car.getSeries() + ";" +
-				 car.getType() + ";" + car.getPrice());
-				 }
+//		ServerConnection conn = new ServerConnection();
+//		List<Car> cars = conn.QueryCars(carA, 3);
+//		for (Car car : cars) {
+//			System.out.println(car.getBrand() + ";" + car.getSeries() + ";"
+//					+ car.getType() + ";" + car.getPrice());
+//		}
+		
+ 		System.out.println(getJsonRequestType(json_car));
 	}
-
+ 
 }
