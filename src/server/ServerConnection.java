@@ -1,5 +1,7 @@
 package server;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,7 +29,7 @@ public class ServerConnection {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager
 					.getConnection(
-							"jdbc:mysql://127.0.0.1:3306/car?useUnicode=true&characterEncoding=UTF-8",
+							"jdbc:mysql://localhost/car?useUnicode=true&characterEncoding=UTF-8",
 							"root", null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -42,8 +44,9 @@ public class ServerConnection {
 	 * 此为将用户在前端选择的部分信息封装为Car实体
 	 * @param mode
 	 * 这是请求的类型：0表示下载所有车品牌，1表示下载对应车品牌的车系，2表示对应的车型
+	 * @throws UnsupportedEncodingException 
 	 */
-	public List<Car> QueryCars(Car car,int mode){
+	public List<Car> QueryCars(Car car,int mode) throws UnsupportedEncodingException{
 		List<Car> cars = new ArrayList<Car>();
 		switch(mode){
 		case 0:
@@ -64,7 +67,7 @@ public class ServerConnection {
 			//查询所有某一车牌对应的车系
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select distinct(series) from mycar where brand='" + car.getBrand() + "'");
+				ResultSet set = statement.executeQuery("select distinct(series) from mycar where brand='" + URLDecoder.decode(car.getBrand(),"utf-8") + "'");
 				cars = ParsingTool.resultSet2Cars(set, 1);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -89,13 +92,12 @@ public class ServerConnection {
 			//查询所有某一车牌对应的车系的对应车型的某一车型的价格:即全部信息
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select * from mycar where type='" + car.getType() + "' and series='" + car.getSeries() + "'");
+				ResultSet set = statement.executeQuery("select price from mycar where type='" + car.getType() + "' and series='" + car.getSeries() + "' and brand='" + car.getBrand() +"'");
 				cars = ParsingTool.resultSet2Cars(set, 3);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			break;
 		}
 		

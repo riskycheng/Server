@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+		<title>金融计算器</title> <!-- Mobile Devices Support @begin -->
+		<meta content="application/xhtml+xml;charset=UTF-8"
+			http-equiv="Content-Type">
+			<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+				<meta content="no-cache" http-equiv="pragma">
+					<meta content="0" http-equiv="expires">
+						<meta content="telephone=no, address=no" name="format-detection">
+							<meta name="viewport"
+								content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+							<meta name="apple-mobile-web-app-capable" content="yes" />
+							<!-- apple devices fullscreen -->
+							<meta name="apple-mobile-web-app-status-bar-style"
+								content="black-translucent" />
+							<!-- Mobile Devices Support @end -->
+<script type="text/javascript" src="./js/json2.js"></script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript">
+<link href="a/nav.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" media="screen" href="a/index1.css">
+<link rel="stylesheet" href="a/jui.min.css">
+
+
+	function doJSON() {
+		var json_ = "[{'type':'car_project_price'},{'brand':'A aodi','series':'aodiA3','type':'2014 1.2L','price':20000}]";
+		var url = "myServlet";
+
+		$.ajax({
+
+			url : "calculator?json=" + json_,
+
+			success : function(data) {
+				alert(data);
+			},
+
+			dataType : "text",
+			crossDomain : true,
+			error : function() {
+				alert("error!");
+			}
+		});
+
+	}
+
+	function ParsingJson2Arr(json, mode) {
+		// 获得json
+		json = json.substr(2, json.length);
+
+		//转成json
+		var objects = eval(json);
+		//创建Array
+		var array = new Array();
+		switch (mode) {
+		case 0:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].brand);
+			break;
+		case 1:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].series);
+			break;
+		case 2:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].type);
+			break;
+		}
+
+		return array;
+	}
+
+	//auto get the brands
+	function getArrays(mode) {
+		var searchKey;
+		var arrResults = new Array();
+		switch (mode) {
+		case 0:
+			//获取品牌
+			searchKey = "[{'type':'car_project_brand'},{'brand':'null','series':'null','type':'null','price':0}]";
+			break;
+		case 1:
+			//根据品牌获取车系
+			var selected_brand = document.getElementById("brand_select").value;
+			//alert(selected_brand);
+			searchKey = "[{'type':'car_project_series'},{'brand':'"
+					+ selected_brand
+					+ "','series':'null','type':'null','price':0}]";
+			break;
+		case 2:
+			//根据车系获取车型
+			var selected_series = document.getElementById("series_select").value;
+			//alert(selected_series);
+			searchKey = "[{'type':'car_project_type'},{'brand':'null','series':'"
+					+ selected_series + "','type':'null','price':0}]";
+			break;
+		}
+		//发送到服务器检索
+		$.ajax({
+
+			url : "calculator?json=" + encodeURIComponent(searchKey),
+
+			success : function(data) {
+				//alert(data);
+				arrResults = ParsingJson2Arr(data, mode);
+				//alert(arrResults.length);
+				//将array写进select
+				putArray2Select(arrResults, mode);
+			},
+
+			dataType : "text",
+			crossDomain : true,
+			error : function() {
+				alert("error!");
+			}
+		});
+
+	}
+
+	//将array写进select
+	function putArray2Select(array, mode) {
+		switch (mode) {
+		case 0:
+			//写到车的品牌
+			for (i = 0; i < array.length; i++) {
+				document.getElementById("brand_select").add(
+						new Option(array[i]));
+			}
+			break;
+		case 1:
+			//写到车的车系
+			document.getElementById("series_select").length = 1;
+			for (i = 0; i < array.length; i++) {
+				document.getElementById("series_select").add(
+						new Option(array[i]));
+			}
+			break;
+
+		case 2:
+			//写到车的车型
+			document.getElementById("type_select").length = 1;
+			for (i = 0; i < array.length; i++) {
+				document.getElementById("type_select")
+						.add(new Option(array[i]));
+			}
+			break;
+		}
+
+	}
+
+	function test() {
+		alert(document.getElementById("loan_first").value);
+	}
+
+	//获取价格
+	function getPrice() {
+		var brand = document.getElementById("brand_select").value;
+		var series = document.getElementById("series_select").value;
+		var type = document.getElementById("type_select").value;
+		var json_ = "[{'type':'car_project_price'},{'brand':'" + brand
+				+ "','series':'" + series + "','type':'" + type
+				+ "','price':20000}]";
+		var url = "myServlet";
+
+		$
+				.ajax({
+
+					url : "calculator?json=" + json_,
+
+					success : function(data) {
+						// 获得json
+						data = data.substr(2, data.length);
+						//转成json
+						var objects = eval(data);
+
+						document.getElementById("price_input").value = objects[1].price;
+					},
+
+					dataType : "text",
+					crossDomain : true,
+					error : function() {
+						alert("error!");
+					}
+				});
+	}
+
+	function cal() {
+
+		var money_all = Number(document.getElementById("price_input").value);
+		var loan_percentage = Number(document.getElementById("loan_first").value);
+		var loan_time = Number(document.getElementById("loan_time").value);
+		//计算首付
+		var first_pay;
+		var month_pay;
+		var day_pay;
+		switch (loan_percentage) {
+		case 0:
+			//30%
+			first_pay = money_all * 0.3;
+			document.getElementById("first_pay").value = first_pay;
+			break;
+		case 1:
+			//40%
+			first_pay = money_all * 0.4;
+			document.getElementById("first_pay").value = first_pay;
+			break;
+		case 2:
+			//50%
+			first_pay = money_all * 0.5;
+			document.getElementById("first_pay").value = first_pay;
+			break;
+		case 3:
+			//60%
+			first_pay = money_all * 0.6;
+			document.getElementById("first_pay").value = first_pay;
+			break;
+		}
+
+		//计算月供和日供
+		loan_pay = money_all
+				- Number(document.getElementById("first_pay").value);
+		switch (loan_time) {
+		case 0:
+			//12
+			month_pay = loan_pay * 0.0914;
+			document.getElementById("month_pay").value = month_pay;
+			document.getElementById("day_pay").value = month_pay / 30;
+			break;
+		case 1:
+			//24
+			month_pay = loan_pay * 0.0492;
+			document.getElementById("month_pay").value = month_pay;
+			document.getElementById("day_pay").value = month_pay / 30;
+			break;
+		case 2:
+			//36
+			month_pay = loan_pay * 0.0353;
+			document.getElementById("month_pay").value = month_pay;
+			document.getElementById("day_pay").value = month_pay / 30;
+			break;
+
+		}
+	}
+</script>
+
+<style>
+    body{background-color: #f1f1f1;}
+    html,body{width: 100%;}
+    #rs .table input {
+        border: 1px solid #dcdcdc;
+        color: #717171;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px;
+        width: 288px;
+    }
+    .custom-combobox {
+        position: relative;
+        display: inline-block;
+    }
+    .custom-combobox-toggle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-left: -1px;
+        padding: 0;
+        /* support: IE7 */
+        *height: 1.7em;
+        *top: 0.1em;
+    }
+    .custom-combobox-input {
+        margin: 0;
+        padding: 0.3em;
+    }
+    </style>
+
+</head>
+
+<body onLoad="getArrays(0);">
+
+
+	<form action="#">
+		<input type="button"
+			value="Click here to send JSON data to the server"
+			onclick="doJSON();" />
+	</form>
+
+	<h2>金融计算器</h2>
+
+	<div id="serverResponse"></div>
+
+	<select id="brand_select" onchange="getArrays(1);">
+		<option>选择品牌</option>
+	</select>
+
+	<select id="series_select" onchange="getArrays(2);">
+		<option>选择车系</option>
+	</select>
+
+	<select id="type_select" onchange="getPrice();">
+		<option>选择车型</option>
+	</select>
+	<p>
+		市场指导价: <input id="price_input"></input>
+	</p>
+	</br>
+	<select id="loan_type">
+		<option value="0">开心融</option>
+	</select>
+
+	<select id="loan_first" onchange="test();">
+		<option value="0">30%</option>
+		<option value="1">40%</option>
+		<option value="2">50%</option>
+		<option value="3">60%</option>
+	</select>
+
+	<select id="loan_time">
+		<option value="0">12</option>
+		<option value="1">24</option>
+		<option value="2">36</option>
+	</select>
+	</br>
+	<p>
+		首付款: <input id="first_pay" type="text"></input>
+	</p>
+	<p>
+		月供: <input id="month_pay" type="text"></input>
+	</p>
+	<p>
+		日供: <input id="day_pay"></input>
+	</p>
+	<input type="button" id="cal_button" value="计算" onclick="cal();"></input>
+
+</body>
+</html>

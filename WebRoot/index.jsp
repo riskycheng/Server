@@ -22,5 +22,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     This page is used for testing the android webService! <br>
+    
   </body>
 </html>

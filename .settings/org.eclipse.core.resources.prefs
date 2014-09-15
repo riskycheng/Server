@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//WebRoot/test.jsp=GBK
 encoding//src/server/MainServer.java=UTF-8
 encoding//src/server/ServerConnection.java=UTF-8
 encoding//src/utils/ParsingTool.java=UTF-8

@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,13 @@ public class MainServer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// 接收客户端发送过来的流信息
-		InputStream inStream = req.getInputStream();
-		// 通过流获取数据流
-		DataInputStream dataInStream = new DataInputStream(inStream);
-		// 请求编码设置为UTF
-		String requestData = dataInStream.readUTF();
+//		// 接收客户端发送过来的流信息
+//		InputStream inStream = req.getInputStream();
+//		// 通过流获取数据流
+//		DataInputStream dataInStream = new DataInputStream(inStream);
+//		// 请求编码设置为UTF
+//		String requestData = dataInStream.readUTF();
+		String requestData = req.getParameter("json");
 		// 打印看一下
 		System.out.println("requestData:" + requestData);
 		log("requestData:" + requestData);
@@ -59,8 +61,13 @@ public class MainServer extends HttpServlet {
 				public void run() {
 					// 请求数据库，下载车的品牌
 					
-					Cars = con.QueryCars(inCar,
-							ConstantParams.MODE_REQUEST_BRAND);
+					try {
+						Cars = con.QueryCars(inCar,
+								ConstantParams.MODE_REQUEST_BRAND);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			thread.start();
@@ -79,8 +86,13 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的系列
-					Cars = con.QueryCars(inCar,
-							ConstantParams.MODE_REQUEST_SERIES);
+					try {
+						Cars = con.QueryCars(inCar,
+								ConstantParams.MODE_REQUEST_SERIES);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			thread.start();
@@ -99,8 +111,13 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的型号
-					Cars = con.QueryCars(inCar,
-							ConstantParams.MODE_REQUEST_TYPE);
+					try {
+						Cars = con.QueryCars(inCar,
+								ConstantParams.MODE_REQUEST_TYPE);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			thread.start();
@@ -119,8 +136,13 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的价格
-//					Cars = con.QueryCars(inCar,
-//							ConstantParams.MODE_REQUEST_PRICE);
+					try {
+						Cars = con.QueryCars(inCar,
+								ConstantParams.MODE_REQUEST_PRICE);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			thread.start();

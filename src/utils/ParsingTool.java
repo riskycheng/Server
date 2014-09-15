@@ -156,10 +156,11 @@ public class ParsingTool {
 			case 3:
 				while (sets.next()) {
 					Car car = new Car();
-					car.setBrand(sets.getString(CAR_BRAND_NO));
-					car.setSeries(sets.getString(CAR_SERIES_NO));
-					car.setType(sets.getString(CAR_TYPE_NO));
-					car.setPrice(sets.getInt(CAR_PRICE_NO));
+//					car.setBrand(sets.getString(CAR_BRAND_NO));
+//					car.setSeries(sets.getString(CAR_SERIES_NO));
+//					car.setType(sets.getString(CAR_TYPE_NO));
+					car.setPrice(sets.getInt(CAR_SINGLE_INFO_START));
+					
 					cars.add(car);
 				}
 				break;
