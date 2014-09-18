@@ -17,6 +17,7 @@ import net.sf.json.JSONArray;
 import entity.Car;
 import utils.ConstantParams;
 import utils.ParsingTool;
+
 public class MainServer extends HttpServlet {
 
 	// 实例化ServerConnection:完成数据库的连接
@@ -25,42 +26,40 @@ public class MainServer extends HttpServlet {
 	ParsingTool parsingTool = new ParsingTool();
 	// 结果
 	List<Car> Cars = new ArrayList<Car>();
+	String loanJson = null;
 
 	/**
 	 * function:处理用户请求
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-//		// 接收客户端发送过来的流信息
-//		InputStream inStream = req.getInputStream();
-//		// 通过流获取数据流
-//		DataInputStream dataInStream = new DataInputStream(inStream);
-//		// 请求编码设置为UTF
-//		String requestData = dataInStream.readUTF();
-		String requestData = req.getParameter("json");
+		// // 接收客户端发送过来的流信息
+		// InputStream inStream = req.getInputStream();
+		// // 通过流获取数据流
+		// DataInputStream dataInStream = new DataInputStream(inStream);
+		// // 请求编码设置为UTF
+		// String requestData = dataInStream.readUTF();
+		final String requestData = req.getParameter("json");
 		// 打印看一下
 		System.out.println("requestData:" + requestData);
 		log("requestData:" + requestData);
 		// 获得请求类型
-	 
-		
+
 		String RequestType = ParsingTool.getJsonRequestType(requestData);
-	//	System.out.println("RequestType:" + ParsingTool.getJsonRequestType(requestData));
-		// 将客户端发过来的数据封装成Car实体
-  	   final Car inCar = ParsingTool.json2Car(requestData);
-		
-		
-		
+
+		// final Car inCar = ParsingTool.json2Car(requestData);
+
 		// 定义返回结果的数据流
 		DataOutputStream dataOutStream = new DataOutputStream(
 				resp.getOutputStream());
 		// 根据请求的类型采用相应的处理策略
 		if (RequestType.equals(ConstantParams.APP_0_0)) {
+
 			// 如果请求是APP_0_0:即为汽车的品牌
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的品牌
-					
+					Car inCar = ParsingTool.json2Car(requestData);
 					try {
 						Cars = con.QueryCars(inCar,
 								ConstantParams.MODE_REQUEST_BRAND);
@@ -86,6 +85,7 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的系列
+					Car inCar = ParsingTool.json2Car(requestData);
 					try {
 						Cars = con.QueryCars(inCar,
 								ConstantParams.MODE_REQUEST_SERIES);
@@ -111,6 +111,7 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的型号
+					Car inCar = ParsingTool.json2Car(requestData);
 					try {
 						Cars = con.QueryCars(inCar,
 								ConstantParams.MODE_REQUEST_TYPE);
@@ -136,6 +137,7 @@ public class MainServer extends HttpServlet {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的价格
+					Car inCar = ParsingTool.json2Car(requestData);
 					try {
 						Cars = con.QueryCars(inCar,
 								ConstantParams.MODE_REQUEST_PRICE);
@@ -156,6 +158,35 @@ public class MainServer extends HttpServlet {
 			}
 			// 调用发送的方法
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_PRICE);
+		} else if (RequestType.equals(ConstantParams.APP_0_4)
+				|| RequestType.equals(ConstantParams.APP_0_5)
+				|| RequestType.equals(ConstantParams.APP_0_6)
+				|| RequestType.equals(ConstantParams.APP_0_7)) {
+			// 如果请求是APP_0_4:即为开心贷的12期
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					// 请求数据库，下载车的价格
+					String loanType = ParsingTool.parsingRateType(requestData);
+					try {
+						loanJson = ParsingTool.loan2Json(con
+								.queryRate(loanType));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.start();
+
+			// 等待该线程执行完毕
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// 调用发送的方法
+			dataOutStream.writeUTF(loanJson);
 		}
 	}
 
@@ -189,7 +220,5 @@ public class MainServer extends HttpServlet {
 		}
 
 	}
-	
-	
 
 }

@@ -21,9 +21,6 @@
 <script type="text/javascript" src="./js/json2.js"></script>
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript">
-<link href="a/nav.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" media="screen" href="a/index1.css">
-<link rel="stylesheet" href="a/jui.min.css">
 
 
 	function doJSON() {
@@ -47,7 +44,7 @@
 
 	}
 
-	function ParsingJson2Arr(json, mode) {
+	function ParsingJson2ArrName(json, mode) {
 		// 获得json
 		json = json.substr(2, json.length);
 
@@ -73,10 +70,38 @@
 		return array;
 	}
 
+	function ParsingJson2ArrValue(json, mode) {
+		// 获得json
+		json = json.substr(2, json.length);
+
+		//转成json
+		var objects = eval(json);
+		//创建Array
+		var array = new Array();
+		switch (mode) {
+		case 0:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].brandvalue);
+			break;
+		case 1:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].seriesvalue);
+			break;
+		case 2:
+			for (i = 1; i < objects.length; i++)
+				array.push(objects[i].typevalue);
+			break;
+		}
+
+		return array;
+	}
+	
+	
 	//auto get the brands
 	function getArrays(mode) {
 		var searchKey;
-		var arrResults = new Array();
+		var arrResultsName = new Array();
+		var arrResultsValue = new Array();
 		switch (mode) {
 		case 0:
 			//获取品牌
@@ -85,6 +110,7 @@
 		case 1:
 			//根据品牌获取车系
 			var selected_brand = document.getElementById("brand_select").value;
+			alert(selected_brand);
 			//alert(selected_brand);
 			searchKey = "[{'type':'car_project_series'},{'brand':'"
 					+ selected_brand
@@ -105,10 +131,11 @@
 
 			success : function(data) {
 				//alert(data);
-				arrResults = ParsingJson2Arr(data, mode);
-				//alert(arrResults.length);
+				arrResultsName = ParsingJson2ArrName(data, mode);
+				arrResultsValue = ParsingJson2ArrValue(data, mode);
+				//alert(arrResultsValue.length);
 				//将array写进select
-				putArray2Select(arrResults, mode);
+				putArray2Select(arrResultsName,arrResultsValue, mode);
 			},
 
 			dataType : "text",
@@ -121,13 +148,13 @@
 	}
 
 	//将array写进select
-	function putArray2Select(array, mode) {
+	function putArray2Select(array,arrResultsValue, mode) {
 		switch (mode) {
 		case 0:
 			//写到车的品牌
 			for (i = 0; i < array.length; i++) {
 				document.getElementById("brand_select").add(
-						new Option(array[i]));
+						new Option(array[i],arrResultsValue[i]));
 			}
 			break;
 		case 1:
@@ -135,7 +162,7 @@
 			document.getElementById("series_select").length = 1;
 			for (i = 0; i < array.length; i++) {
 				document.getElementById("series_select").add(
-						new Option(array[i]));
+						new Option(array[i],arrResultsValue[i]));
 			}
 			break;
 
@@ -144,7 +171,7 @@
 			document.getElementById("type_select").length = 1;
 			for (i = 0; i < array.length; i++) {
 				document.getElementById("type_select")
-						.add(new Option(array[i]));
+						.add(new Option(array[i],arrResultsValue[i]));
 			}
 			break;
 		}
@@ -246,36 +273,6 @@
 	}
 </script>
 
-<style>
-    body{background-color: #f1f1f1;}
-    html,body{width: 100%;}
-    #rs .table input {
-        border: 1px solid #dcdcdc;
-        color: #717171;
-        font-size: 14px;
-        font-weight: bold;
-        padding: 5px;
-        width: 288px;
-    }
-    .custom-combobox {
-        position: relative;
-        display: inline-block;
-    }
-    .custom-combobox-toggle {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin-left: -1px;
-        padding: 0;
-        /* support: IE7 */
-        *height: 1.7em;
-        *top: 0.1em;
-    }
-    .custom-combobox-input {
-        margin: 0;
-        padding: 0.3em;
-    }
-    </style>
 
 </head>
 
@@ -334,6 +331,7 @@
 		日供: <input id="day_pay"></input>
 	</p>
 	<input type="button" id="cal_button" value="计算" onclick="cal();"></input>
+	
 
 </body>
 </html>

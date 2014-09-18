@@ -21,8 +21,9 @@ import entity.Car;
 
 public class ServerConnection {
 	private Connection con = null;
-    public static ResultSet sets;
-    Statement statement = null;
+	public static ResultSet sets;
+	Statement statement = null;
+
 	// 构造函数连接数据库
 	public ServerConnection() {
 		try {
@@ -34,65 +35,77 @@ public class ServerConnection {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * function:依照部分车的信息，完成查询数据库,将车的查询结果转化为List<Car>
+	 * 
 	 * @param car
-	 * 此为将用户在前端选择的部分信息封装为Car实体
+	 *            此为将用户在前端选择的部分信息封装为Car实体
 	 * @param mode
-	 * 这是请求的类型：0表示下载所有车品牌，1表示下载对应车品牌的车系，2表示对应的车型
-	 * @throws UnsupportedEncodingException 
+	 *            这是请求的类型：0表示下载所有车品牌，1表示下载对应车品牌的车系，2表示对应的车型
+	 * @throws UnsupportedEncodingException
 	 */
-	public List<Car> QueryCars(Car car,int mode) throws UnsupportedEncodingException{
+	public List<Car> QueryCars(Car car, int mode)
+			throws UnsupportedEncodingException {
 		List<Car> cars = new ArrayList<Car>();
-		switch(mode){
+		switch (mode) {
 		case 0:
-			//查询所有车的品牌
+			// 查询所有车的品牌
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select distinct(brand) from mycar");
+				ResultSet set = statement
+						.executeQuery("select distinct(brand),brandvalue from mycar");
 				cars = ParsingTool.resultSet2Cars(set, 0);
 				statement.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			break;
-			
+
 		case 1:
-			//查询所有某一车牌对应的车系
+			// 查询所有某一车牌对应的车系
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select distinct(series) from mycar where brand='" + URLDecoder.decode(car.getBrand(),"utf-8") + "'");
+				ResultSet set = statement
+						.executeQuery("select distinct(series),seriesvalue from mycar where brandvalue="
+								+ car.getBrandValue());
 				cars = ParsingTool.resultSet2Cars(set, 1);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			break;
-			
+
 		case 2:
-			//查询所有某一车牌对应的车系的对应车型
+			// 查询所有某一车牌对应的车系的对应车型
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select distinct(type) from mycar where series='" + car.getSeries() + "'");
+				ResultSet set = statement
+						.executeQuery("select distinct(type),typevalue from mycar where seriesvalue="
+								+ car.getSeriesValue());
 				cars = ParsingTool.resultSet2Cars(set, 2);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			break;
 		case 3:
-			//查询所有某一车牌对应的车系的对应车型的某一车型的价格:即全部信息
+			// 查询所有某一车牌对应的车系的对应车型的某一车型的价格:即全部信息
 			try {
 				statement = con.createStatement();
-				ResultSet set = statement.executeQuery("select price from mycar where type='" + car.getType() + "' and series='" + car.getSeries() + "' and brand='" + car.getBrand() +"'");
+				ResultSet set = statement
+						.executeQuery("select price from mycar where typevalue="
+								+ car.getTypeValue()
+								+ " and seriesvalue="
+								+ car.getSeriesValue()
+								+ " and brandvalue="
+								+ car.getBrandValue());
 				cars = ParsingTool.resultSet2Cars(set, 3);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -100,7 +113,27 @@ public class ServerConnection {
 			}
 			break;
 		}
-		
+
 		return cars;
+	}
+
+	/**
+	 * 根据type类型查找利率
+	 */
+	public double queryRate(String loanType) {
+		double rate = 0.0;
+		try {
+			statement = con.createStatement();
+			ResultSet set = statement
+					.executeQuery("select rate from loan where type='"
+							+ loanType + "'");
+			set.beforeFirst();
+			while (set.next())
+				rate = set.getDouble(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rate;
 	}
 }
