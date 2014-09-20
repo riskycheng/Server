@@ -8,6 +8,7 @@ import java.util.List;
 import server.ServerConnection;
 import net.sf.json.JSONArray;
 import entity.Car;
+import entity.User;
 
 /**
  * 用于解析从客户端发送过来的json串解析、将本地查询结果封装成json
@@ -226,18 +227,77 @@ public class ParsingTool {
 	}
 
 	/**
-	 * function:将客户端传过来的json解析出利率
+	 * function:将客户端传过来的json解析出请求类型
 	 * 
 	 * @param args
 	 */
-	public static String parsingRateType(String json) {
+	public static String parsingGetUpdateRateType(String json) {
+		JSONArray jsonArray = JSONArray.fromObject(json);
+		// 获取请求的贷款类型
+		String loanType = jsonArray.getJSONObject(1).getString("type")
+				.toString();
+		return loanType;
+	}
+
+	/**
+	 * function:将客户端传过来的json解析出请求类型
+	 * 
+	 * @param args
+	 */
+	public static String parsingGetRateType(String json) {
 		JSONArray jsonArray = JSONArray.fromObject(json);
 		// 获取请求的贷款类型
 		String loanType = jsonArray.getJSONObject(0).getString("type")
 				.toString();
 		return loanType;
 	}
+	
+	/**
+	 * function:将客户端传过来的json解析出请求类型
+	 * 
+	 * @param args
+	 */
+	public static double parsingUpdateRate(String json) {
+		JSONArray jsonArray = JSONArray.fromObject(json);
+		// 获取请求的贷款类型
+		String loanRate = jsonArray.getJSONObject(1).getString("rate")
+				.toString();
+		return Double.parseDouble(loanRate);
+	}
 
+	
+	/**
+	 * function:完成update数据库内的车价侯将返回信息封装成json
+	 * @param args
+	 */
+	public static String parsingUpdateReslut2Json(int result){
+		//将result封装进json
+		String json = "[{'type':'update_price'},{'result':" + result + "}]";
+		return json;
+	}
+	
+	/**
+	 * function:将传过来的Json数据转化为User对象
+	 * @param json
+	 * 从客户端传过来的数据
+	 */
+	public static User ParsingJson2User(String json){
+		JSONArray jsonArray = JSONArray.fromObject(json);
+		User user = new User();
+		user.setUserName(jsonArray.getJSONObject(0).getString("user"));
+		user.setUserPassword(jsonArray.getJSONObject(0).getString("password"));
+		return user;
+	}
+	
+	/**
+	 * function:将从数据库查询的结果封装成json字符串
+	 * @param args
+	 */
+	public static String parsingLoginResult2Json(int result){
+		String json = "[{'type':'login_result','result':" + result + "}]";
+		return json;
+	}
+	
 	// test
 	public static void main(String[] args) {
 		Car carA = new Car();

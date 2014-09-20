@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import entity.Car;
+import entity.User;
 import utils.ConstantParams;
 import utils.ParsingTool;
 
@@ -27,6 +28,7 @@ public class MainServer extends HttpServlet {
 	// 结果
 	List<Car> Cars = new ArrayList<Car>();
 	String loanJson = null;
+	String updateResultJson = null;
 
 	/**
 	 * function:处理用户请求
@@ -160,13 +162,13 @@ public class MainServer extends HttpServlet {
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_PRICE);
 		} else if (RequestType.equals(ConstantParams.APP_0_4)
 				|| RequestType.equals(ConstantParams.APP_0_5)
-				|| RequestType.equals(ConstantParams.APP_0_6)
-				|| RequestType.equals(ConstantParams.APP_0_7)) {
-			// 如果请求是APP_0_4:即为开心贷的12期
+				|| RequestType.equals(ConstantParams.APP_0_6)) {
+			// 如果请求是APP_0_4,05,06,07:即为开心贷的12期
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					// 请求数据库，下载车的价格
-					String loanType = ParsingTool.parsingRateType(requestData);
+					String loanType = ParsingTool
+							.parsingGetRateType(requestData);
 					try {
 						loanJson = ParsingTool.loan2Json(con
 								.queryRate(loanType));
@@ -187,7 +189,91 @@ public class MainServer extends HttpServlet {
 			}
 			// 调用发送的方法
 			dataOutStream.writeUTF(loanJson);
+		} else if (RequestType.equals(ConstantParams.APP_0_7)) {
+			// 如果请求是APP_0_7:即为汽车的价格
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					Car inCar = ParsingTool.json2Car(requestData);
+					try {
+						// 更新车价
+						updateResultJson = ParsingTool
+								.parsingUpdateReslut2Json(con
+										.updatePrice(inCar));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.out.println("更新车价失败："
+								+ e.getMessage().toString());
+					}
+				}
+			});
+			thread.start();
+
+			// 等待该线程执行完毕
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// 将更新的反馈结果给客户端
+			dataOutStream.writeUTF(updateResultJson);
+		} else if (RequestType.equals(ConstantParams.APP_0_8)) {
+			// 如果请求是APP_0_8:即为修改利率
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					// 解析loan的类型
+					String type = ParsingTool.parsingGetUpdateRateType(requestData);
+					try {
+						// 更新利率
+						updateResultJson = ParsingTool.parsingUpdateReslut2Json(con
+								.updateRate(ParsingTool
+										.parsingUpdateRate(requestData), type));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.out.println("更新利率失败："
+								+ e.getMessage().toString());
+					}
+				}
+			});
+			thread.start();
+
+			// 等待该线程执行完毕
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// 将更新的反馈结果给客户端
+			dataOutStream.writeUTF(updateResultJson);
+		}else if (RequestType.equals(ConstantParams.APP_0_9)) {
+			// 如果请求是APP_0_8:即为修改利率
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					User user = ParsingTool.ParsingJson2User(requestData);
+					try {
+						// 更新利率
+						updateResultJson = ParsingTool.parsingLoginResult2Json(con.loginCheck(user));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.out.println("登录失败："
+								+ e.getMessage().toString());
+					}
+				}
+			});
+			thread.start();
+
+			// 等待该线程执行完毕
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// 将更新的反馈结果给客户端
+			dataOutStream.writeUTF(updateResultJson);
 		}
+
 	}
 
 	@Override

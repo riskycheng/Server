@@ -138,7 +138,8 @@
 													break;
 												}
 												//发送到服务器检索
-												$.ajax({
+												$
+														.ajax({
 
 															url : "calculator?json="
 																	+ encodeURIComponent(searchKey),
@@ -174,7 +175,8 @@
 													arrResultsValue, mode) {
 												switch (mode) {
 												case 0:
-													//写到车的品牌
+													//写到车的品牌：首先将其清空
+													document.getElementById("brand_select").length = 1;
 													for (i = 0; i < array.length; i++) {
 														document
 																.getElementById(
@@ -267,103 +269,268 @@
 															}
 														});
 											}
-											
-											
-											function selectLoan(){
+
+											function selectLoan() {
 												//根据首付比例控制显示贷款类型和期数
 												// 1:开心融  2：新易融  3：精英融  4：气球融 5：轻松融 6：低息融
-												var selectedLoan = Number(document.getElementById("loan_first").value);
-												switch(selectedLoan){
+												var selectedLoan = Number(document
+														.getElementById("loan_first").value);
+												switch (selectedLoan) {
 												case 0:
 													//0%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("新易融",2));
-													document.getElementById("loan_type").add(new Option("低息融",6));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"新易融",
+																			2));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"低息融",
+																			6));
 													break;
 												case 2:
 													//20%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("精英融",3));
-													document.getElementById("loan_type").add(new Option("气球融",4));
-													document.getElementById("loan_type").add(new Option("低息融",6));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"精英融",
+																			3));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"气球融",
+																			4));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"低息融",
+																			6));
 													break;
 												case 3://30%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("开心融",1));
-													document.getElementById("loan_type").add(new Option("精英融",3));
-													document.getElementById("loan_type").add(new Option("气球融",4));
-													document.getElementById("loan_type").add(new Option("低息融",6));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"开心融",
+																			1));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"精英融",
+																			3));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"气球融",
+																			4));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"低息融",
+																			6));
 													break;
 												case 4://40%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("开心融",1));
-													document.getElementById("loan_type").add(new Option("精英融",3));
-													document.getElementById("loan_type").add(new Option("气球融",4));
-													document.getElementById("loan_type").add(new Option("低息融",6));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"开心融",
+																			1));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"精英融",
+																			3));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"气球融",
+																			4));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"低息融",
+																			6));
 													break;
 												case 5://50%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("开心融",1));
-													document.getElementById("loan_type").add(new Option("精英融",3));
-													document.getElementById("loan_type").add(new Option("气球融",4));
-													document.getElementById("loan_type").add(new Option("轻松融",5));
-													document.getElementById("loan_type").add(new Option("低息融",6));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"开心融",
+																			1));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"精英融",
+																			3));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"气球融",
+																			4));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"轻松融",
+																			5));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"低息融",
+																			6));
 													break;
 												case 6://60%
-													document.getElementById("loan_type").length = 1;
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_type").add(new Option("开心融",1));
-													document.getElementById("loan_type").add(new Option("精英融",3));
-													document.getElementById("loan_type").add(new Option("气球融",4));
+													document
+															.getElementById("loan_type").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"开心融",
+																			1));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"精英融",
+																			3));
+													document
+															.getElementById(
+																	"loan_type")
+															.add(
+																	new Option(
+																			"气球融",
+																			4));
 													break;
 												}
 												document
-												.getElementById("first_pay").value = "";
+														.getElementById("first_pay").value = "";
 												document
-												.getElementById("month_pay").value = "";
-										document
-												.getElementById("day_pay").value = "";
+														.getElementById("month_pay").value = "";
+												document
+														.getElementById("day_pay").value = "";
 											}
-											
-											function selectLoanTime(){
-												var selectedLoan = Number(document.getElementById("loan_type").value);
+
+											function selectLoanTime() {
+												var selectedLoan = Number(document
+														.getElementById("loan_type").value);
 												//alert(selectedLoan);
-												switch(selectedLoan){
+												switch (selectedLoan) {
 												case 0:
-													document.getElementById("loan_time").length = 1;
+													document
+															.getElementById("loan_time").length = 1;
 													break;
 												case 1:
 													//开心融
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_time").add(new Option("12期",12));
-													document.getElementById("loan_time").add(new Option("24期",24));
-													document.getElementById("loan_time").add(new Option("36期",36));
+													document
+															.getElementById("loan_time").length = 1;
+													document.getElementById(
+															"loan_time").add(
+															new Option("12期",
+																	12));
+													document.getElementById(
+															"loan_time").add(
+															new Option("24期",
+																	24));
+													document.getElementById(
+															"loan_time").add(
+															new Option("36期",
+																	36));
 													break;
 												default://其他
-													document.getElementById("loan_time").length = 1;
-													document.getElementById("loan_time").add(new Option("12期",12));
-													document.getElementById("loan_time").add(new Option("24期",24));
-													document.getElementById("loan_time").add(new Option("36期",36));
-													document.getElementById("loan_time").add(new Option("48期",48));
-													document.getElementById("loan_time").add(new Option("60期",60));
+													document
+															.getElementById("loan_time").length = 1;
+													document.getElementById(
+															"loan_time").add(
+															new Option("12期",
+																	12));
+													document.getElementById(
+															"loan_time").add(
+															new Option("24期",
+																	24));
+													document.getElementById(
+															"loan_time").add(
+															new Option("36期",
+																	36));
+													document.getElementById(
+															"loan_time").add(
+															new Option("48期",
+																	48));
+													document.getElementById(
+															"loan_time").add(
+															new Option("60期",
+																	60));
 													break;
 												}
 												document
-												.getElementById("first_pay").value = "";
+														.getElementById("first_pay").value = "";
 												document
-												.getElementById("month_pay").value = "";
-										document
-												.getElementById("day_pay").value = "";
+														.getElementById("month_pay").value = "";
+												document
+														.getElementById("day_pay").value = "";
 											}
-											
-											
-											function getRateAndCal(){
-												
+
+											function getRateAndCal() {
+
 												var money_all = Number(document
 														.getElementById("price_input").value);
 												var loan_percentage = Number(document
@@ -373,44 +540,46 @@
 												var loan_type = Number(document
 														.getElementById("loan_type").value);
 												//如果值为空
-												if(money_all == 0){
+												if (money_all == 0) {
 													alert("当前车价为空！");
 													return;
 												}
 												//如果期数选到了0
-												if(loan_time == 0){
+												if (loan_time == 0) {
 													document
-													.getElementById("first_pay").value = "";
+															.getElementById("first_pay").value = "";
 													document
-													.getElementById("month_pay").value = "";
-											document
-													.getElementById("day_pay").value = "";
-											return;
+															.getElementById("month_pay").value = "";
+													document
+															.getElementById("day_pay").value = "";
+													return;
 												}
-													
+
 												//计算首付
 												var first_pay;
 												var month_pay;
 												var day_pay;
 												var rateValue;
 												//如果是新易融  计算公式：月供=车价÷还款期数
-												if(loan_type == 2){
-													month_pay = money_all / loan_time ;
+												if (loan_type == 2) {
+													month_pay = money_all
+															/ loan_time;
 													document
-													.getElementById("first_pay").value = money_all;
+															.getElementById("first_pay").value = money_all;
 													document
-													.getElementById("month_pay").value = month_pay;
-											document
-													.getElementById("day_pay").value = month_pay / 30;
+															.getElementById("month_pay").value = month_pay;
+													document
+															.getElementById("day_pay").value = month_pay / 30;
 												}
-												
+
 												//如果是开心融
-												if(loan_type == 1){
+												if (loan_type == 1) {
 													var json_;
 													//根据开心融的期数
-													
-													var selectKXtime = Number(document.getElementById("loan_time").value);
-													switch(selectKXtime){
+
+													var selectKXtime = Number(document
+															.getElementById("loan_time").value);
+													switch (selectKXtime) {
 													case 12:
 														json_ = "[{'type':'kx_12'}]";
 														break;
@@ -421,77 +590,411 @@
 														json_ = "[{'type':'kx_36'}]";
 														break;
 													}
-													
-													$.ajax({
 
-														url : "calculator?json="
-																+ json_,
+													$
+															.ajax({
 
-														success : function(data) {
-															//alert(data);
-															data = data.substr(2,data.length);
-															//解析rate的json
-															var object = eval(data);
-															rateValue =object[1].rate * 1;
-															//alert(rateValue);
-															//根据利率来计算
-		                                                    first_pay = money_all * (loan_percentage / 10);
-															//alert(rateValue);
-															month_pay = (money_all - first_pay) * rateValue;
+																url : "calculator?json="
+																		+ json_,
 
-															document
-															.getElementById("first_pay").value = first_pay;
-															document
-															.getElementById("month_pay").value = month_pay;
-													document
-															.getElementById("day_pay").value = month_pay / 30;
-															
-														},
+																success : function(
+																		data) {
+																	//alert(data);
+																	data = data
+																			.substr(
+																					2,
+																					data.length);
+																	//解析rate的json
+																	var object = eval(data);
+																	rateValue = object[1].rate * 1;
+																	//alert(rateValue);
+																	//根据利率来计算
+																	first_pay = money_all
+																			* (loan_percentage / 10);
+																	//alert(rateValue);
+																	month_pay = (money_all - first_pay)
+																			* rateValue;
 
-														dataType : "text",
-														crossDomain : true,
-														error : function() {
-															alert("error!");
-														}
-													});
+																	document
+																			.getElementById("first_pay").value = first_pay;
+																	document
+																			.getElementById("month_pay").value = month_pay;
+																	document
+																			.getElementById("day_pay").value = month_pay / 30;
+
+																},
+
+																dataType : "text",
+																crossDomain : true,
+																error : function() {
+																	alert("error!");
+																}
+															});
 												}
-												
-												if(loan_type == 3 || loan_type == 4 || loan_type == 5 || loan_type == 6){
+
+												if (loan_type == 3
+														|| loan_type == 4
+														|| loan_type == 5
+														|| loan_type == 6) {
 													//如果是后四者
-													
-		                                                    first_pay = money_all * (loan_percentage / 10);
-															//alert(rateValue);
-															month_pay = (money_all - first_pay) / loan_time;
 
-															document
+													first_pay = money_all
+															* (loan_percentage / 10);
+													//alert(rateValue);
+													month_pay = (money_all - first_pay)
+															/ loan_time;
+
+													document
 															.getElementById("first_pay").value = first_pay;
-															document
+													document
 															.getElementById("month_pay").value = month_pay;
 													document
 															.getElementById("day_pay").value = month_pay / 30;
-														
+
 												}
+											}
+
+											//修改汽车价钱
+
+											function updatePrice() {
+												//获得此时的车的信息和价格，并将车价更新进数据库
+												var brandValue = Number(document
+														.getElementById("brand_select").value);
+												var seriesValue = Number(document
+														.getElementById("series_select").value);
+												var typeValue = Number(document
+														.getElementById("type_select").value);
+												var priceValue = Number(document
+														.getElementById("price_input").value);
+												//如果价格栏目为空，则直接返回
+												if (priceValue == 0) {
+													alert("价格不能为空！");
+													return;
+												}
+
+												//修改前确认
+												if (!confirm("确认将该款车价修改为:"
+														+ priceValue + " 元?")) {
+													return;
+												}
+												//封装json
+												var json_ = "[{'type':'update_price'},{'brand':'"
+														+ brandValue
+														+ "','series':'"
+														+ seriesValue
+														+ "','type':'"
+														+ typeValue
+														+ "','price':"
+														+ priceValue + "}]";
+
+												//发送到服务器检索
+												$
+														.ajax({
+
+															url : "calculator?json="
+																	+ json_,
+
+															success : function(
+																	data) {
+																//处理接收到的数据
+																data = data
+																		.substr(
+																				2,
+																				data.length);
+																var object = eval(data);
+																var result = Number(object[1].result);
+																if (result == 1) {
+																	//修改成功
+																	alert("修改成功！");
+																} else {
+																	//修改失败
+																	alert("修改失败，请稍后重试！");
+																}
+
+															},
+
+															dataType : "text",
+															crossDomain : true,
+															error : function() {
+																alert("error!");
+															}
+														});
+											}
+
+											//修改金融产品对应的期数
+											function setLoanTime() {
+												//获取控件内的值
+												var loanTypeValue = Number(document
+														.getElementById("loan_type").value);
+												document
+														.getElementById("loan_time").length = 1;
+												//如果选择开心融
+												if (loanTypeValue == 1) {
+													document
+															.getElementById(
+																	"loan_time")
+															.add(
+																	new Option(
+																			"12期",
+																			1));
+													document
+															.getElementById(
+																	"loan_time")
+															.add(
+																	new Option(
+																			"24期",
+																			2));
+													document
+															.getElementById(
+																	"loan_time")
+															.add(
+																	new Option(
+																			"36期",
+																			3));
+												}
+											}
+
+											//根据所选的贷款类型请求利率
+											function getRate() {
+												var json_;
+												//根据开心融的期数
+												var selectKXtime = Number(document
+														.getElementById("loan_time").value);
+												switch (selectKXtime) {
+												case 1:
+													json_ = "[{'type':'kx_12'}]";
+													break;
+												case 2:
+													json_ = "[{'type':'kx_24'}]";
+													break;
+												case 3:
+													json_ = "[{'type':'kx_36'}]";
+													break;
+												}
+
+												$
+														.ajax({
+
+															url : "calculator?json="
+																	+ json_,
+
+															success : function(
+																	data) {
+																//处理数据
+																//alert(data);
+																data = data
+																		.substr(
+																				2,
+																				data.length);
+																var object = eval(data);
+																//将rate的值置入输入框
+																document
+																		.getElementById("rate_input").value = object[1].rate;
+															},
+
+															dataType : "text",
+															crossDomain : true,
+															error : function() {
+																alert("error!");
+															}
+														});
+											}
+
+											//根据所选的贷款类型修改利率
+											function updateRate() {
+												var json_;
+												//根据开心融的期数
+												var selectKXtime = Number(document
+														.getElementById("loan_time").value);
+												var inputRateValue = Number(document
+														.getElementById("rate_input").value);
+												if (inputRateValue == 0) {
+													//如果为空
+													alert("当前利率值为空！");
+													return;
+												}
+
+												//修改前确认
+												if (!confirm("确认将该利率修改为:"
+														+ inputRateValue + " ?")) {
+													return;
+												}
+
+												switch (selectKXtime) {
+												case 1:
+													json_ = "[{'type':'update_rate'},{'type':'kx_12','rate':"
+															+ inputRateValue
+															+ "}]";
+													break;
+												case 2:
+													json_ = "[{'type':'update_rate'},{'type':'kx_24','rate':"
+															+ inputRateValue
+															+ "}]";
+													break;
+												case 3:
+													json_ = "[{'type':'update_rate'},{'type':'kx_36','rate':"
+															+ inputRateValue
+															+ "}]";
+													break;
+												}
+
+												$
+														.ajax({
+
+															url : "calculator?json="
+																	+ json_,
+
+															success : function(
+																	data) {
+																//处理数据
+																//alert(data);
+																//处理接收到的数据
+																data = data
+																		.substr(
+																				2,
+																				data.length);
+																var object = eval(data);
+																var result = Number(object[1].result);
+																if (result == 1) {
+																	//修改成功
+																	alert("修改成功！");
+																} else {
+																	//修改失败
+																	alert("修改失败，请稍后重试！");
+																}
+															},
+
+															dataType : "text",
+															crossDomain : true,
+															error : function() {
+																alert("error!");
+															}
+														});
+											}
+
+											function login() {
+												//首先获取输入的用户名和密码
+												var userValue = document
+														.getElementById("user_input").value;
+												var passwordValue = document
+														.getElementById("password_input").value;
+												//判空
+												if (userValue == ""
+														|| passwordValue == "") {
+													alert("用户名和密码不能为空!");
+													return;
+												}
+												//查询数据库
+												var json_ = "[{'type':'login','user':'"
+														+ userValue
+														+ "','password':'"
+														+ passwordValue + "'}]";
 												
-												
-												
+												$.ajax({
+
+															url : "calculator?json="
+																	+ json_,
+
+															success : function(
+																	data) {
+																//处理数据
+																//alert(data);
+																//处理接收到的数据
+																data = data.substr(2,data.length);
+																var object = eval(data);
+																var resultCode = Number(object[0].result);
+																switch(resultCode){
+																case 0:
+																	alert("不存在该用户！");
+																	break;
+																case 1:
+																	alert("密码错误！");
+																	break;
+																case 2:
+																alert("登录成功！");
+																//成功登录后跳转
+																controlDisPlay(1);
+																break;
+																}
+															},
+
+															dataType : "text",
+															crossDomain : true,
+															error : function() {
+																alert("error!");
+															}
+														});
 
 											}
-											
+
+											//控制显示
+											function controlDisPlay(object) {
+												object = Number(object);
+												switch (object) {
+
+												//默认为登录，此时将所有的都隐藏
+												case 0:
+													document
+															.getElementById("table_select_modify").style.visibility = "hidden";
+													document
+															.getElementById("table_price").style.display = "none";
+													document
+															.getElementById("table_rate").style.display = "none";
+													//显示车价部分的table
+													document
+															.getElementById("table_login").style.display = "block";
+													break;
+
+												case 1:
+													//自动执行获取品牌函数
+													getArrays(0);
+													document
+													.getElementById("table_select_modify").style.visibility = "visible";
+													//隐藏登录table
+													document
+													.getElementById("table_login").style.display = "none";
+													//表示点击的是updatePrice
+													document
+															.getElementById("btn_updatePrice").style.color = "yellow";
+													document
+															.getElementById("btn_updateRate").style.color = "#717171";
+													//显示车价部分的table
+													document
+															.getElementById("table_price").style.display = "block";
+													document
+															.getElementById("table_rate").style.display = "none";
+													break;
+												case 2:
+													//自动执行获取品牌函数
+													document
+													.getElementById("table_select_modify").style.visibility = "visible";
+													//隐藏登录table
+													document
+													.getElementById("table_login").style.display = "none";
+													//表示点击的是updatePrice
+													document
+															.getElementById("btn_updatePrice").style.color = "#717171";
+													document
+															.getElementById("btn_updateRate").style.color = "yellow";
+													//显示车价部分的table
+													document
+															.getElementById("table_price").style.display = "none";
+													document
+															.getElementById("table_rate").style.display = "block";
+													break;
+												}
+											}
 										</script>
 </head>
 
-<body onLoad="getArrays(0);">
+<body onLoad="controlDisPlay(0);">
 
 
-
-
-
-
-	<div class="warp" style="overflow: hidden; width: 100%;">
+	<div class="warp" style="overflow: hidden; width: 100%;" id="pageIndex">
 		<div style="width: 200%;">
 			<div id="cal" style="float: left; margin-left: 0px; width: 50%;">
 
-		<!--  		<div class="jsq_tijiao">
+				<!--  		<div class="jsq_tijiao">
 					<input type="button"
 						value="Click here to send JSON data to the server"
 						onclick="doJSON();" class="jsq_tijiao2" />
@@ -499,11 +1002,31 @@
 				</div>
 				-->
 				<div class="wz">
-					<p>金融计算器</p>
+					<p>金融计算器-管理后台</p>
 				</div>
 
+
+				<table border="0" align="center" class="table"
+					id="table_select_modify">
+
+					<tbody>
+						<tr>
+							<td width=50% align="center"
+								style="padding-right: 5px; padding-bottom: 20px;"><input
+								type="button" value="车价修改" class="jsq_tijiao2"
+								id="btn_updatePrice" onclick="controlDisPlay(1);" /></td>
+							<td width=50% align="center"
+								style="padding-right: 5px; padding-bottom: 20px;"><input
+								type="button" value="利率修改" class="jsq_tijiao2"
+								id="btn_updateRate" onclick="controlDisPlay(2);" /></td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
 				<div id="serverResponse"></div>
-				<table border="0" align="center" class="table">
+				<table border="0" align="center" class="table" id="table_price">
 
 					<tbody>
 						<tr>
@@ -530,36 +1053,34 @@
 						<tr>
 							<th width=33% style="text-align: right; padding-right: 15px">市场指导价:
 							</th>
-							<td colspan="2"><input id="price_input" onchange="getRateAndCal();"></input></td>
+							<td colspan="2"><input id="price_input"></input></td>
 						</tr>
-
-
-
-
-
-
-
 
 						<tr>
-							<th width="33%" style="text-align: right; padding-right: 15px">
-								首付款比例:</th>
-							<td colspan="2"><select id="loan_first" onchange="selectLoan();">
-									<option value="-1">选择首付比例</option>
-									<option value="0">0%</option>
-									<option value="2">20%</option>
-									<option value="3">30%</option>
-									<option value="4">40%</option>
-									<option value="5">50%</option>
-									<option value="6">60%</option>
-									
-							</select></td>
+							<th width=0% style="text-align: right; padding-right: 0px"></th>
+							<td colspan="2">
+								<div class="jsq_tijiao">
+									<input type="button" id="updatePrice_btn" value="修  改"
+										onclick="updatePrice();" class="jsq_tijiao1"
+										style="-webkit-appearance: none" />
+								</div>
+							</td>
 						</tr>
+				</table>
+
+
+
+
+				<table border="0" align="center" class="table" id="table_rate">
+
+					<tbody>
 						<tr>
 							<th width="33%" style="text-align: right; padding-right: 15px">贷款类型
 								:</th>
-							<td colspan="2"><select id="loan_type" onchange="selectLoanTime();">
+							<td colspan="2"><select id="loan_type"
+								onchange="setLoanTime();">
 									<option value="0">选择类型</option>
-									
+									<option value="1">开心融</option>
 							</select></td>
 						</tr>
 
@@ -567,34 +1088,61 @@
 						<tr>
 							<th width="33%" style="text-align: right; padding-right: 15px">
 								还款期数:</th>
-							<td colspan="2"><select id="loan_time" onchange="getRateAndCal();">
+							<td colspan="2"><select id="loan_time" onchange="getRate();">
 									<option value="0">选择期数</option>
 							</select></td>
 						</tr>
 
 						<tr>
-							<th width="33%" style="text-align: right; padding-right: 15px">
-								首付款:</th>
-							<td colspan="2"><input id="first_pay" type="text"></input></td>
+							<th width=33% style="text-align: right; padding-right: 15px">利率:
+							</th>
+							<td colspan="2"><input id="rate_input"></input></td>
 						</tr>
-
 						<tr>
-							<th width="33%" style="text-align: right; padding-right: 15px">
-								月供:</th>
-							<td colspan="2"><input id="month_pay" type="text"></input></td>
+							<th width=0% style="text-align: center; padding-right: 0px"></th>
+							<td colspan="2">
+								<div class="jsq_tijiao">
+									<input type="button" id="updateRate_btn" value="修  改"
+										onclick="updateRate();" class="jsq_tijiao1"
+										style="-webkit-appearance: none" />
+								</div>
+							</td>
 						</tr>
 
-
-						<tr>
-							<th width="33%" style="text-align: right; padding-right: 15px">
-								日供:</th>
-							<td colspan="2"><input id="day_pay"></input></td>
-						</tr>
+					</tbody>
 				</table>
-				<div class="jsq_tijiao">
-					<input type="button" id="cal_btn" value="车贷试算" onclick="getRateAndCal();"
-						class="jsq_tijiao1" style="-webkit-appearance: none">
-				</div>
+
+				<!-- 登录布局 -->
+				<table border="0" align="center" class="table" id="table_login">
+
+					<tbody>
+						<tr>
+							<th width="33%" style="text-align: right; padding-right: 15px">用户名:
+								:</th>
+							<td colspan="2"><input id="user_input" type="text"></td>
+						</tr>
+
+
+						<tr>
+							<th width="33%" style="text-align: right; padding-right: 15px">
+								密码:</th>
+							<td colspan="2"><input id="password_input" type="password"></td>
+						</tr>
+						<tr>
+							<th width=0% style="text-align: center; padding-right: 0px"></th>
+							<td colspan="2">
+								<div class="jsq_tijiao">
+									<input type="button" id="login_btn" value="登 录"
+										onclick="login();" class="jsq_tijiao1"
+										style="-webkit-appearance: none" />
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
 			</div>
 		</div>
 	</div>

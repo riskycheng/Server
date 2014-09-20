@@ -8,7 +8,11 @@ public final static String APP_0_3 = "car_project_price";
 public final static String APP_0_4 = "kx_12";
 public final static String APP_0_5 = "kx_24";
 public final static String APP_0_6 = "kx_36";
-public final static String APP_0_7 = "default";
+public final static String APP_0_7 = "update_price";
+public final static String APP_0_8 = "update_rate";
+public final static String APP_0_9 = "login";
+
+
 
 
 public final static int MODE_REQUEST_BRAND = 0;
