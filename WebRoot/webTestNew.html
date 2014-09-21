@@ -397,11 +397,11 @@
 												if(loan_type == 2){
 													month_pay = money_all / loan_time ;
 													document
-													.getElementById("first_pay").value = money_all;
+													.getElementById("first_pay").value = money_all.toFixed(2);
 													document
-													.getElementById("month_pay").value = month_pay;
+													.getElementById("month_pay").value = month_pay.toFixed(2);
 											document
-													.getElementById("day_pay").value = month_pay / 30;
+													.getElementById("day_pay").value = (month_pay / 30).toFixed(2);
 												}
 												
 												//如果是开心融
@@ -440,11 +440,11 @@
 															month_pay = (money_all - first_pay) * rateValue;
 
 															document
-															.getElementById("first_pay").value = first_pay;
+															.getElementById("first_pay").value = first_pay.toFixed(2);
 															document
-															.getElementById("month_pay").value = month_pay;
+															.getElementById("month_pay").value = month_pay.toFixed(2);
 													document
-															.getElementById("day_pay").value = month_pay / 30;
+															.getElementById("day_pay").value = (month_pay / 30).toFixed(2);
 															
 														},
 
@@ -464,11 +464,11 @@
 															month_pay = (money_all - first_pay) / loan_time;
 
 															document
-															.getElementById("first_pay").value = first_pay;
+															.getElementById("first_pay").value = first_pay.toFixed(2);
 															document
-															.getElementById("month_pay").value = month_pay;
+															.getElementById("month_pay").value = month_pay.toFixed(2);
 													document
-															.getElementById("day_pay").value = month_pay / 30;
+															.getElementById("day_pay").value = (month_pay / 30).toFixed(2);
 														
 												}
 												

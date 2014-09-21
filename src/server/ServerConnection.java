@@ -31,7 +31,7 @@ public class ServerConnection {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			con = DriverManager
 					.getConnection(
-							"jdbc:mysql://localhost/car?useUnicode=true&characterEncoding=UTF-8",
+							"jdbc:mysql://localhost:3306/car",
 							"root", null);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -57,7 +57,7 @@ public class ServerConnection {
 			try {
 				statement = con.createStatement();
 				ResultSet set = statement
-						.executeQuery("select distinct(brand),brandvalue from mycar");
+						.executeQuery("select distinct(brand),brandvalue from mycar order by brandvalue");
 				cars = ParsingTool.resultSet2Cars(set, 0);
 				statement.close();
 			} catch (SQLException e) {
