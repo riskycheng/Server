@@ -22,7 +22,6 @@ import utils.ParsingTool;
 public class MainServer extends HttpServlet {
 
 	// 实例化ServerConnection:完成数据库的连接
-	ServerConnection con = new ServerConnection();
 	// 实例化ParsingTool
 	ParsingTool parsingTool = new ParsingTool();
 	// 结果
@@ -51,15 +50,14 @@ public class MainServer extends HttpServlet {
 
 		// final Car inCar = ParsingTool.json2Car(requestData);
 
-		// 定义返回结果的数据流
-		DataOutputStream dataOutStream = new DataOutputStream(
-				resp.getOutputStream());
+		
 		// 根据请求的类型采用相应的处理策略
 		if (RequestType.equals(ConstantParams.APP_0_0)) {
-
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_0:即为汽车的品牌
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
+					
 					// 请求数据库，下载车的品牌
 					Car inCar = ParsingTool.json2Car(requestData);
 					try {
@@ -79,13 +77,21 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
 			// 调用发送的方法
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_BRAND);
+			dataOutStream.close();
 		} else if (RequestType.equals(ConstantParams.APP_0_1)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_1:即为汽车的系列
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
+					
 					// 请求数据库，下载车的系列
 					Car inCar = ParsingTool.json2Car(requestData);
 					try {
@@ -105,10 +111,17 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 调用发送的方法
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_SERIES);
+			dataOutStream.close();
 		} else if (RequestType.equals(ConstantParams.APP_0_2)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_2:即为汽车的型号
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -131,10 +144,17 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 调用发送的方法
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_TYPE);
+			dataOutStream.close();
 		} else if (RequestType.equals(ConstantParams.APP_0_3)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_3:即为汽车的价格
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -157,12 +177,18 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 调用发送的方法
 			sendCars(dataOutStream, Cars, ConstantParams.MODE_REQUEST_PRICE);
 		} else if (RequestType.equals(ConstantParams.APP_0_4)
 				|| RequestType.equals(ConstantParams.APP_0_5)
 				|| RequestType.equals(ConstantParams.APP_0_6)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_4,05,06,07:即为开心贷的12期
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -186,10 +212,17 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 调用发送的方法
 			dataOutStream.writeUTF(loanJson);
+			dataOutStream.close();
 		} else if (RequestType.equals(ConstantParams.APP_0_7)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_7:即为汽车的价格
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -214,10 +247,17 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 将更新的反馈结果给客户端
 			dataOutStream.writeUTF(updateResultJson);
+			dataOutStream.close();
 		} else if (RequestType.equals(ConstantParams.APP_0_8)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_8:即为修改利率
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -243,10 +283,17 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 将更新的反馈结果给客户端
 			dataOutStream.writeUTF(updateResultJson);
+			dataOutStream.close();
 		}else if (RequestType.equals(ConstantParams.APP_0_9)) {
+			final ServerConnection con = new ServerConnection();
 			// 如果请求是APP_0_8:即为修改利率
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
@@ -269,11 +316,16 @@ public class MainServer extends HttpServlet {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				con.closeConnection();
 			}
+			// 定义返回结果的数据流
+			DataOutputStream dataOutStream = new DataOutputStream(
+					resp.getOutputStream());
 			// 将更新的反馈结果给客户端
 			dataOutStream.writeUTF(updateResultJson);
+			dataOutStream.close();
 		}
-
 	}
 
 	@Override

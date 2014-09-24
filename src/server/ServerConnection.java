@@ -38,6 +38,17 @@ public class ServerConnection {
 		}
 
 	}
+	
+	//关闭
+	public void closeConnection(){
+		try {
+			if(this.con != null)
+			this.con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * function:依照部分车的信息，完成查询数据库,将车的查询结果转化为List<Car>
